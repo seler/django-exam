@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+{% if answer and prev_question %}
+<p>ratio: {{ answer.ratio }}</p>
+{% if answer.valid %}
+<p>Odpowiedź poprawna</p>
+{% else %}
+<p>Odpowiedz niepoprawna</p>
+{% endif %}
+<p>Poprawna odpowiedź to: <strong>{{ prev_question.answer }}</strong></p>
+{% endif %}
+{% if question %}
+<p>{{ question.question }}</p>
+<audio controls="controls">
+    <source src="{{ question.sound.url }}" type="audio/mp3">
+    <embed src="{{ question.sound.url }}">
+</audio>
+<form action="." method="post" accept-charset="utf-8">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <p><input type="submit" value="Go!"></p>
+</form>
+{% else %}
+<p>Koniec! Odpowiedziałeś poprawnie na wszystkie pytania. Możesz zaczać od nowa</p>
+{% endif %}
+{% endblock %}
+{% comment %}
+vim: ft=htmldjango ts=4 sw=4 sts=4 sr et
+{% endcomment %}
